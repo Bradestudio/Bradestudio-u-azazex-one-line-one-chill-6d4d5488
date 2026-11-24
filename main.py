@@ -51,6 +51,13 @@ def main():
         sys.exit("entry must end with the paradox landing on 'born.'")
     if "DNA test" not in text or "twenty years before" not in text:
         sys.exit("entry lost its concrete detail")
+    if "  " in text:
+        sys.exit("entry must not contain double spaces")
+    if any(ord(ch) < 32 or ord(ch) == 127 for ch in text):
+        sys.exit("entry must not contain control characters")
+    if len(text.split()) < 8:
+        sys.exit("entry too short to land the paradox, got %d words"
+                 % len(text.split()))
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
